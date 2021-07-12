@@ -44,19 +44,48 @@ from typing import List
 
 class Solution:
     """
-
+    归并算法的后半部分
     """
 
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
-        pass
+        result = []
+        nums1_index = 0
+        nums1_len = len(nums1)
+        nums2_index = 0
+        nums2_len = len(nums2)
+        while nums1_index <= nums1_len and nums2_index <= nums2_len:
+            if nums1_index == nums1_len:
+                result.extend(nums2[nums2_index:])
+                break
+            elif nums2_index == nums2_len:
+                result.extend(nums1[nums1_index:])
+                break
+            nums1_item = nums1[nums1_index]
+            nums2_item = nums2[nums2_index]
+            if nums1_item < nums2_item:
+                result.append(nums1_item)
+                nums1_index += 1
+            else:
+                result.append(nums2_item)
+                nums2_index += 1
+        sum_count = nums1_len + nums2_len
+        if sum_count == 1:
+            return float(result[0])
+        # 单数 取中间的 3 // 2 = 1 1 + 1 = 2
+        if sum_count % 2 != 0:
+            return result[sum_count // 2]
+        # 双数 取
+        index = sum_count // 2
+        return (result[index] + result[index - 1]) / 2
 
 
 if __name__ == '__main__':
     solution = Solution()
     # solution2 = Solution2()
     # solution3 = Solution3()
-    nums = [1, 2, 5, 9, 5, 9, 5, 5, 5]
-    result = solution.findMedianSortedArrays(nums)
+    nums1 = [1, 3]
+    nums2 = [2]
+    result = solution.findMedianSortedArrays(nums1, nums2)
     print(result)
     # result = solution2.findMedianSortedArrays(nums)
     # print(result)
@@ -64,8 +93,9 @@ if __name__ == '__main__':
     # print(result)
     #
     print()
-    nums = [3, 2]
-    result = solution.findMedianSortedArrays(nums)
+    nums1 = [1, 2]
+    nums2 = [3, 4]
+    result = solution.findMedianSortedArrays(nums1, nums2)
     print(result)
     # result = solution2.findMedianSortedArrays(nums)
     # print(result)
@@ -73,11 +103,13 @@ if __name__ == '__main__':
     # print(result)
 
     print()
-    nums = [2, 2, 1, 1, 1, 2, 2]
-    result = solution.findMedianSortedArrays(nums)
+    nums1 = [0, 0]
+    nums2 = [0, 0]
+    result = solution.findMedianSortedArrays(nums1, nums2)
     print(result)
 
     print()
-    nums = [3, 3, 4]
-    result = solution.findMedianSortedArrays(nums)
+    nums1 = []
+    nums2 = [1]
+    result = solution.findMedianSortedArrays(nums1, nums2)
     print(result)
